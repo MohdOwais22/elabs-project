@@ -31,20 +31,43 @@ body{
 
 /* select id news and style */
 #news{
+    margin-left: 10vw;
     background-color: #fff;
     padding: 20px;
     border-bottom: 1px solid #ccc;
 }
 
 .card {
-    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    width: 80vw;
     height: 100%;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     margin-bottom: 20px;
     overflow: hidden;
+    transition: box-shadow 1s;
 }
+
+.card:hover {
+    box-shadow: 0 0 20px rgba(245, 1, 1, 0.764);
+    transition: box-shadow 1s;
+}
+
+.card-image {
+    max-width: 20vw;
+    grid-row: 1/3;
+}
+
+.card-content {
+    margin-top: 2em;
+}
+
+.card-image > img {
+    max-width: inherit;
+}
+
 .card .card_image{
     width: 100%;
     height: 200px;
