@@ -5,9 +5,12 @@ const result = fetch(
     return response.json();
   })
   .then(function (data) {
-    if(data.articles.length > 10) {
-        data.articles.length = 10;
-        displayNews(data);
+    if (data.articles.length > 10) {
+      data.articles.length = 10;
+      displayNews(data);
+
+      return data;
+      // displayPagination(data);
     }
   });
 
@@ -62,4 +65,68 @@ function clearNews() {
   // select the news div and set its innerHTML to an empty string
   document.querySelector("#news").innerHTML = "";
 }
-
+// infinite scroll news function
+var page = 1;
+var pageSize = 10;
+var category = "top-headlines";
+var language = "en";
+var country = "in";
+var sortBy = "publishedAt";
+var apiKey = "4049525922de49b1a80df6daf4ce8bee";
+var url =
+  "https://newsapi.org/v2/top-headlines?country=in&apiKey=4049525922de49b1a80df6daf4ce8bee&page=" +
+  page +
+  "&pageSize=" +
+  pageSize +
+  "&category=" +
+  "top-headlines" +
+  "&language=" +
+  "en" +
+  "&country=" +
+  "in" +
+  "&apiKey=" +
+  "4049525922de49b1a80df6daf4ce8bee" +
+  "";
+var loading = false;
+var finished = false;
+var news = document.querySelector("#news");
+var loadingElement = document.querySelector("#loading");
+var finishedElement = document.querySelector("#finished");
+window.addEventListener("scroll", function () {
+  if (
+    window.scrollY + window.innerHeight >= document.body.offsetHeight - 100 &&
+    !loading &&
+    !finished
+  ) {
+    loading = true;
+    loadingElement.style.display = "block";
+    page++;
+    url =
+      "https://newsapi.org/v2/top-headlines?country=in&apiKey=4049525922de49b1a80df6daf4ce8bee&page=" +
+      page +
+      "&language=" +
+      language +
+      "&country=" +
+      country +
+      "&sortBy=" +
+      sortBy +
+      "&apiKey=" +
+      apiKey +
+      "";
+      console.log(url)
+    fetch(url)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        if (data.articles.length === 0) {
+          finished = true;
+          finishedElement.style.display = "block";
+        } else {
+          displayNews(data);
+        }
+        loading = false;
+        loadingElement.style.display = "none";
+      });
+  }
+});
