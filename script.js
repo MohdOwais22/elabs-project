@@ -1,3 +1,5 @@
+
+
 const result = fetch(
   "https://newsapi.org/v2/top-headlines?country=in&apiKey=4049525922de49b1a80df6daf4ce8bee"
 )
@@ -31,7 +33,12 @@ function createCard(article) {
   title.textContent = article.title;
   // create a p element to hold the description
   var description = document.createElement("p");
+  let root = document.querySelector(':root');
+  let rootCss = getComputedStyle(root);  
+  let trunc = rootCss.getPropertyValue('--setTrunc')
   description.textContent = article.description;
+  if(trunc == 1) 
+  description.textContent = description.textContent.substring(0,50);
   // create a div element to hold the card action
   var cardAction = document.createElement("div");
   cardAction.classList.add("card-action");
